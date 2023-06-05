@@ -9,7 +9,7 @@ app = FastAPI()
 
 # CORS configuration
 origins = [
-    "https://ngmisl.github.io/ngqri/",
+    "https://ngmisl.github.io",
 ]
 
 app.add_middleware(
