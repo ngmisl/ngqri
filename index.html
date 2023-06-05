@@ -29,7 +29,7 @@
     <div class="container">
       <h1>QR Code Generator</h1>
       <form
-        hx-post="http://localhost:8000/generate_qr"
+        hx-post="https://ngqri.onrender.com/generate_qr"
         hx-swap="outerHTML"
         hx-json="true"
       >
@@ -58,7 +58,7 @@
         const url = document.querySelector('input[name="url"]').value;
         const payload = JSON.stringify({ url, size }); // Serialize data as JSON
 
-        fetch("http://localhost:8000/generate_qr", {
+        fetch("https://ngqri.onrender.com/generate_qr", {
           method: "POST",
           body: payload, // Use the serialized JSON payload
           headers: {
@@ -84,7 +84,7 @@
         const url = document.querySelector('input[name="url"]').value;
         const payload = JSON.stringify({ url, size }); // Serialize data as JSON
 
-        fetch("http://localhost:8000/generate_qr", {
+        fetch("https://ngqri.onrender.com/generate_qr", {
           method: "POST",
           body: payload, // Use the serialized JSON payload
           headers: {
