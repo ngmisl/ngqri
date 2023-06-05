@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.0"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>QR Code Generator</h1>
+      <form
+        hx-post="http://localhost:8000/generate_qr"
+        hx-swap="outerHTML"
+        hx-json="true"
+      >
+        <input type="text" name="url" placeholder="Enter a URL" />
+        <button type="submit">Generate QR Code</button>
+      </form>
+      <div id="qr_image" hx-swap="outerHTML"></div>
+      <div id="download_links">
+        <button class="download-button" onclick="downloadQRCode(200)">
+          Download 200x200
+        </button>
+        <button class="download-button" onclick="downloadQRCode(400)">
+          Download 400x400
+        </button>
+        <button class="download-button" onclick="downloadQRCode(600)">
+          Download 600x600
+        </button>
+      </div>
+    </div>
+    <div class="footer">
+      Service by <a href="https://ngmi.ai">ngmi.ai</a> -
+      <a href="https://tryb.cc/ngmi">Follow Us</a>
+    </div>
+    <script>
+      function generateQRCode(size = 400) {
+        const url = document.querySelector('input[name="url"]').value;
+        const payload = JSON.stringify({ url, size }); // Serialize data as JSON
+
+        fetch("http://localhost:8000/generate_qr", {
+          method: "POST",
+          body: payload, // Use the serialized JSON payload
+          headers: {
+            "Content-Type": "application/json", // Set the content type to JSON
+          },
+        })
+          .then((response) => response.blob())
+          .then((blob) => {
+            const qrImage = URL.createObjectURL(blob);
+
+            const qrImageElement = document.createElement("img");
+            qrImageElement.src = qrImage;
+
+            document.getElementById("qr_image").innerHTML = "";
+            document.getElementById("qr_image").appendChild(qrImageElement);
+
+            // Show download links after generating QR code
+            document.getElementById("download_links").style.display = "block";
+          });
+      }
+
+      function downloadQRCode(size) {
+        const url = document.querySelector('input[name="url"]').value;
+        const payload = JSON.stringify({ url, size }); // Serialize data as JSON
+
+        fetch("http://localhost:8000/generate_qr", {
+          method: "POST",
+          body: payload, // Use the serialized JSON payload
+          headers: {
+            "Content-Type": "application/json", // Set the content type to JSON
+          },
+        })
+          .then((response) => response.blob())
+          .then((blob) => {
+            const qrImage = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = qrImage;
+            link.download = `qrcode_${size}x${size}.png`;
+            link.click();
+          });
+      }
+
+      document
+        .querySelector("form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          generateQRCode();
+        });
+    </script>
+  </body>
+</html>
