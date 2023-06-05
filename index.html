@@ -52,61 +52,27 @@
     <div class="footer">
       Service by <a href="https://ngmi.ai" target="_blank">ngmi.ai</a> -
       <a href="https://tryb.cc/ngmi" target="_blank">Follow Us</a>
+
+      <svg
+        class="w-10 h-10"
+        viewBox="0 0 162 119"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0.913757 114.53C13.9807 116.216 32.3056 122.378 43.7012 113.083C51.0025 107.128 57.0714 99.6064 62.6869 92.0921C73.647 77.4257 81.4769 57.0014 83.9262 38.9656C86.7749 17.9886 65.2558 22.4197 58.3958 36.6239C48.6178 56.8698 53.4826 94.2165 79.0133 100.444C108.309 107.591 123.562 71.7844 130.096 49.9154C134.773 34.2631 153.849 -9.9389 143.644 2.81731C137.309 10.736 128.12 15.6577 122.008 23.6058C118.81 27.7641 121.911 27.9558 125.382 25.0963C131.067 20.4118 136.477 14.6482 140.667 8.60318C141.379 7.57589 145.275 0.763508 146.837 3.12604C151.902 10.7886 153.525 20.5514 158.568 28.4832"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></path>
+        <path
+          d="M132.848 24.4348C141.945 26.8851 150.961 28.4036 160.05 30.4235C162.841 31.0437 159.046 30.7305 158.171 30.7851"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        ></path>
+      </svg>
     </div>
-    <script>
-      function generateQRCode(size = 400) {
-        const url = document.querySelector('input[name="url"]').value;
-        const payload = JSON.stringify({ url, size }); // Serialize data as JSON
-
-        fetch("https://ngqri.onrender.com/generate_qr", {
-          method: "POST",
-          body: payload, // Use the serialized JSON payload
-          headers: {
-            "Content-Type": "application/json", // Set the content type to JSON
-          },
-        })
-          .then((response) => response.blob())
-          .then((blob) => {
-            const qrImage = URL.createObjectURL(blob);
-
-            const qrImageElement = document.createElement("img");
-            qrImageElement.src = qrImage;
-
-            document.getElementById("qr_image").innerHTML = "";
-            document.getElementById("qr_image").appendChild(qrImageElement);
-
-            // Show download links after generating QR code
-            document.getElementById("download_links").style.display = "block";
-          });
-      }
-
-      function downloadQRCode(size) {
-        const url = document.querySelector('input[name="url"]').value;
-        const payload = JSON.stringify({ url, size }); // Serialize data as JSON
-
-        fetch("https://ngqri.onrender.com/generate_qr", {
-          method: "POST",
-          body: payload, // Use the serialized JSON payload
-          headers: {
-            "Content-Type": "application/json", // Set the content type to JSON
-          },
-        })
-          .then((response) => response.blob())
-          .then((blob) => {
-            const qrImage = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = qrImage;
-            link.download = `qrcode_${size}x${size}.png`;
-            link.click();
-          });
-      }
-
-      document
-        .querySelector("form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
-          generateQRCode();
-        });
-    </script>
+    <script src="script.js"></script>
   </body>
 </html>
